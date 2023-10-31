@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="Welcome.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+    <link rel="stylesheet"
+          href="Style.css" />
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <label for="fnInput">First Name</label>
+    <input id="fnInput" required />
+    <br />
+    <label for="lnInput">Last Name</label>
+    <input id="lnInput" required />
+    <br />
+    <label for="usInput">User Name</label>
+    <input id="usInput" required />
+    <br />
+    <label for="passInput">Password</label>
+    <input id="passInput" required type="password" onchange="checkPassword()" />
+    <!--<meter max="4" id="password-strength-meter"></meter>-->
+    <progress class="progressStyle" id="password-strength-progress" max="4"></progress>
+    <p id="password-strength-text"></p>
+    <!--onchange="checkPassword()"-->
+    <!--placeholder="Type your password here" />-->
+    <!--<label for="">
+        Strength of password
+    </label>-->
+    <!--<div class="power-container">
+        <div id="power-point"></div>
+    </div>
+    <label id="textPower"></label>-->
+    <br />
+    <label for="phoneInput">Phone Number</label>
+    <input id="phoneInput" required />
+    <br />
+    <label for="emailInput">Email</label>
+    <input id="emailInput" required />
+    <br />
+    <button onclick="registerFunc()">REGISTER</button>
+    <br />
+    <a href="Login.html">לכניסה</a>
+
+</body>
+</html>
