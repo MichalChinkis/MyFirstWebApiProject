@@ -5,6 +5,7 @@ using Services;
 using System.Reflection.Metadata;
 using System.Text.Json;
 using Zxcvbn;
+using entities.Models;
 
 
 
@@ -25,7 +26,7 @@ namespace MyFirstWebApiProject.Controllers
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]string UserName, [FromQuery]string Password)
         {
-            UserClass user = await userServices.getUserByUserNameAndPassword(UserName, Password);
+            User user = await userServices.getUserByUserNameAndPassword(UserName, Password);
             if (user == null)
                 return NoContent();
             return Ok(user);
@@ -36,10 +37,10 @@ namespace MyFirstWebApiProject.Controllers
       
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult Post([FromBody] UserClass user)
+        public async Task<ActionResult> Post([FromBody] User user)
         {
             try {
-                UserClass newUser = userServices.addUser(user);
+                User newUser = await userServices.addUser(user);
                 return Ok(newUser);
             }
             // return CreatedAtAction(nameof(Get), new { id = user.Id}, user );
@@ -48,7 +49,7 @@ namespace MyFirstWebApiProject.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<UserClass> Put(int id,[FromBody]UserClass userToUpdate)
+        public async Task<User> Put(int id,[FromBody] User userToUpdate)
         {
             return await userServices.updateUser(id, userToUpdate);
         }

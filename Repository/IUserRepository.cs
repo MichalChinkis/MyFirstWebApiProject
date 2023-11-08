@@ -1,11 +1,12 @@
 ﻿using entities;
+using entities.Models;
 
 namespace Repository
 {
     public interface IUserRepository
     {
-        UserClass addUser(UserClass user);
-        Task<UserClass> getUserByUserNameAndPassword(global::System.String UserName, global::System.String Password);
-        Task<UserClass> updateUser(global::System.Int32 id, UserClass userToUpdate);
+        Task<User> addUser(User user);
+        Task<User> getUserByUserNameAndPassword(global::System.String UserName, global::System.String Password);
+        Task<User> updateUser(global::System.Int32 id, User userToUpdate);
     }
 }

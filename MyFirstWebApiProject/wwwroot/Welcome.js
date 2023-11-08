@@ -31,7 +31,6 @@ const checkPassword = () => {
 const registerFunc =  async () => {
     const user = {
 
-        PhoneNumber: document.getElementById("phoneInput").value,
         Email: document.getElementById("emailInput").value,
         LastName: document.getElementById("lnInput").value,
         FirstName: document.getElementById("fnInput").value,
@@ -79,7 +78,6 @@ const loginFunc = async () => {
 
 const updateFunc = async () => {
     const user = {
-        PhoneNumber: document.getElementById("phoneInput").value,
         Email: document.getElementById("emailInput").value,
         LastName: document.getElementById("lnInput").value,
         FirstName: document.getElementById("fnInput").value,

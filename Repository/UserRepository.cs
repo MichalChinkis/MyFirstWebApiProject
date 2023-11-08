@@ -1,62 +1,30 @@
 ﻿using entities;
 using System.Text.Json;
+using entities.Models;
 
 namespace Repository;
 
-public class UserRepository : IUserRepository
+public class UserRepository: IUserRepository
 {
-  
-    private readonly string filePath = "Files//users.json";
-    public async Task<UserClass> getUserByUserNameAndPassword(string UserName, string Password)
+    private readonly CookwareShopContext _CookwareShopContext;
+    public UserRepository(CookwareShopContext cookwareShopContext)
     {
-        using (StreamReader reader = System.IO.File.OpenText(filePath))
-        {
-            string? currentUserInFile;
-            while ((currentUserInFile =await reader.ReadLineAsync()) != null)
-            {
-                UserClass user = JsonSerializer.Deserialize<UserClass>(currentUserInFile);
-                if (user.UserName == UserName && user.Password == Password)
-                    return user;
-            }
-            return null;
-        }
-
+        _CookwareShopContext = cookwareShopContext;
     }
-
-
-    //לא שונה עקב אי-הצלחתה של המורה
-    public UserClass addUser(UserClass user)
+    public async Task<User> addUser(User user)
     {
-        int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
-        user.Id = numberOfUsers + 1;
-        string userJson = JsonSerializer.Serialize(user);
-        System.IO.File.AppendAllText("Files//users.json", userJson + Environment.NewLine);
+      await _CookwareShopContext.Users.AddAsync(user);
+       await _CookwareShopContext.SaveChangesAsync();
         return user;
     }
 
-    public async Task<UserClass> updateUser(int id, UserClass userToUpdate)
+    public Task<User> getUserByUserNameAndPassword(string UserName, string Password)
     {
-        userToUpdate.Id = id;
-        string textToReplace = string.Empty;
-        using (StreamReader reader = System.IO.File.OpenText(filePath))
-        {
-            string currentUserInFile;
-            while ((currentUserInFile = await reader.ReadLineAsync()) != null)
-            {
+        throw new NotImplementedException();
+    }
 
-                UserClass user = JsonSerializer.Deserialize<UserClass>(currentUserInFile);
-                if (user.Id == id)
-                    textToReplace = currentUserInFile;
-                
-            }
-        }
-
-        if (textToReplace != string.Empty)
-        {
-            string text = System.IO.File.ReadAllText(filePath);
-            text = text.Replace(textToReplace, JsonSerializer.Serialize(userToUpdate));
-            System.IO.File.WriteAllText(filePath, text);
-        } 
-      return userToUpdate;
+    public Task<User> updateUser(int id, User userToUpdate)
+    {
+        throw new NotImplementedException();
     }
 }
