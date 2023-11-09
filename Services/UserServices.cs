@@ -11,11 +11,7 @@ namespace Services
         {
             _UserRepository = userRepository;
         }
-        public async Task<User> getUserByUserNameAndPassword(string UserName, string Password)
-        {
-            return await _UserRepository.getUserByUserNameAndPassword(UserName, Password);
-        }
-
+        
         public async Task<User> addUser(User user)
         {
             //check strength of password
@@ -24,9 +20,24 @@ namespace Services
             return await _UserRepository.addUser(user);
         }
 
-        public async Task<User> updateUser(int id, User userToUpdate)
+        public async Task<User> getUserById(int id)
         {
-            return await _UserRepository.updateUser(id, userToUpdate);
+            return await _UserRepository.getUserById(id);
+        }
+
+        public async Task<IEnumerable<User>> getUsers()
+        {
+            return await _UserRepository.getUsers();
+        }
+
+        public async Task updateUser(int id, User userToUpdate)
+        {
+             await _UserRepository.updateUser(id, userToUpdate);
+        }
+
+        public async Task DeleteUser(int id)
+        { 
+            await _UserRepository.DeleteUser(id);
         }
     }
 }

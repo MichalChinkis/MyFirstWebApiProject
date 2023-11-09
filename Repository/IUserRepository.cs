@@ -6,7 +6,10 @@ namespace Repository
     public interface IUserRepository
     {
         Task<User> addUser(User user);
-        Task<User> getUserByUserNameAndPassword(global::System.String UserName, global::System.String Password);
-        Task<User> updateUser(global::System.Int32 id, User userToUpdate);
+        Task<IEnumerable<User>> getUsers();
+
+        Task<User> getUserById(int id);
+        Task updateUser(int id, User userToUpdate);
+        Task DeleteUser(int id);
     }
 }

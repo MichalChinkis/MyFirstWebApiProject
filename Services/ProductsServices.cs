@@ -9,17 +9,29 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class ProductsServices 
-        //: IProductsServices
+    public class ProductsServices: IProductsServices
     {
         IProductsRepository _ProductsRepository;
         public ProductsServices(IProductsRepository productsRepository)
         {
             _ProductsRepository = productsRepository;
         }
-        public async Task<User> getUserByUserNameAndPassword()
+
+        public async Task<Product> addProduct(Product product)
         {
-            return await _ProductsRepository.getAllProducts();
+            return await _ProductsRepository.addProduct(product);
         }
+
+        public async Task<Product> getProductById(int id)
+        {
+            return await _ProductsRepository.getProductById(id);
+        }
+
+        public async Task<IEnumerable<Product>> getProducts()
+        { 
+            return await _ProductsRepository.getProducts();
+        }
+
+
     }
 }

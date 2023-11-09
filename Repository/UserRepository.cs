@@ -1,6 +1,7 @@
 ﻿using entities;
 using System.Text.Json;
 using entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository;
 
@@ -18,13 +19,29 @@ public class UserRepository: IUserRepository
         return user;
     }
 
-    public Task<User> getUserByUserNameAndPassword(string UserName, string Password)
+    public async Task<User> getUserById(int id)
     {
-        throw new NotImplementedException();
+        return await _CookwareShopContext.Users.FindAsync(id);
     }
 
-    public Task<User> updateUser(int id, User userToUpdate)
+
+    public async Task<IEnumerable<User>> getUsers()
     {
-        throw new NotImplementedException();
+        return await _CookwareShopContext.Users.ToListAsync();
+    }
+
+    public async Task updateUser(int id, User userToUpdate)
+    {
+       //var userToUpdate1 = await _CookwareShopContext.Users.FindAsync(id);
+        _CookwareShopContext.Update(userToUpdate);
+       await _CookwareShopContext.SaveChangesAsync();
+        
+    }
+
+    public async Task DeleteUser(int id)
+    {
+        var user = await _CookwareShopContext.Users.FindAsync(id);
+        _CookwareShopContext.Users.Remove(user);
+        await _CookwareShopContext.SaveChangesAsync(true);
     }
 }
