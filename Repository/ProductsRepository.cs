@@ -1,5 +1,6 @@
 ﻿using entities;
 using entities.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Repository
 
         }
 
-        public async Task<IEnumerable<Product>> getProducts()
+        public async Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8)
         {
             return await _CookwareShopContext.Products.ToListAsync();
 

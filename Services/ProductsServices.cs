@@ -1,5 +1,6 @@
 ﻿using entities;
 using entities.Models;
+using Microsoft.AspNetCore.Mvc;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,9 @@ namespace Services
             return await _ProductsRepository.getProductById(id);
         }
 
-        public async Task<IEnumerable<Product>> getProducts()
+        public async Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8)
         { 
-            return await _ProductsRepository.getProducts();
+            return await _ProductsRepository.getProducts(desc, minPrice, maxPrice, categoryIdys, position, skip);
         }
 
 

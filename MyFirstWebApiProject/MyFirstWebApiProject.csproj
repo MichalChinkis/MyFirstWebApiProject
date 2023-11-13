@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\Products.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Welcome.html" />
     <None Include="wwwroot\Welcome.js" />
   </ItemGroup>
