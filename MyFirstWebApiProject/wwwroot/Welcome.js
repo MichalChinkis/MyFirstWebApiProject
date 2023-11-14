@@ -68,9 +68,10 @@ const loginFunc = async () => {
         }
              else {
                  const resUser = await response.json()
-                 alert("success")
-                 sessionStorage.setItem("user", JSON.stringify(resUser));
-                 window.location.href="Site.html"
+            alert("success")
+            console.log("user", resUser);
+            sessionStorage.setItem("user", JSON.stringify(resUser));
+            window.location.href="Products.html"
 
         }
     } catch (error) { alert(error) }

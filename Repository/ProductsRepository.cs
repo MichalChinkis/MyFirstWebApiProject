@@ -28,12 +28,19 @@ namespace Repository
         public async Task<Product> getProductById(int id)
         {
             return await _CookwareShopContext.Products.FindAsync(id);
-
         }
 
         public async Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8)
         {
-            return await _CookwareShopContext.Products.ToListAsync();
+            var query = _CookwareShopContext.Products.Where(product =>
+                (desc == null ? (true) : (product.Description.Contains(desc)))
+                && ((minPrice == null) ? (true) : (product.Price >= minPrice))
+                && ((maxPrice == null) ? (true) : (product.Price <= maxPrice))
+                && ((categoryIdys.Length == 0) ? (true) : (categoryIdys.Contains(product.CategoryId))))
+                .OrderBy(product => product.Price);
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.ToListAsync();
+            return products;
 
         }
     }
