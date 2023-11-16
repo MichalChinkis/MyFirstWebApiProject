@@ -9,7 +9,6 @@
             })
 
         const products = await response.json()
-        alert("products", products);
         console.log("products", products);
         for (var i = 0; i < products.length; i++) {
             drawProduct(products[i]);
