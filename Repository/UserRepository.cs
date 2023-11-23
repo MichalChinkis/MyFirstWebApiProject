@@ -24,6 +24,11 @@ public class UserRepository: IUserRepository
         return await _CookwareShopContext.Users.FindAsync(id);
     }
 
+    public async Task<User> getUserByUserNameAndPassword(string UserName, string Password)
+    {
+        return await _CookwareShopContext.Users.Where(i => i.UserName == UserName &&
+        i.Password == Password).FirstOrDefaultAsync();
+    }
 
     public async Task<IEnumerable<User>> getUsers()
     {

@@ -1,4 +1,6 @@
-﻿using entities.Models;
+﻿using AutoMapper;
+using DTO;
+using entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -11,30 +13,38 @@ namespace MyFirstWebApiProject.Controllers
     public class CategoryController : ControllerBase
     {
         ICategoryServices _CategoryServices;
-        public CategoryController(ICategoryServices categoryServices)
+        IMapper mapper;
+        public CategoryController(ICategoryServices categoryServices, IMapper _mapper)
         {
             _CategoryServices = categoryServices;
+            mapper = _mapper;
         }
         // GET: api/<Category>
         [HttpGet]
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<ActionResult<IEnumerable<CategorysDTO>>> GetCategories()
         {
-            return await _CategoryServices.getCategories();
+            IEnumerable<Category> categories = await _CategoryServices.getCategories();
+            IEnumerable<CategorysDTO> categorysDTOs = mapper.Map<IEnumerable<Category>, IEnumerable<CategorysDTO>>(categories);
+            return Ok(categorysDTOs);
+            
         }
 
         // GET api/<Category>/5
         [HttpGet("{id}")]
-        public async Task<Category> getUserById(int id)
+        public async Task<CategorysDTO> getUserById(int id)
         {
-            return await _CategoryServices.getCategoryById(id);
+            Category category= await _CategoryServices.getCategoryById(id);
+            CategorysDTO categoryDTO = mapper.Map<Category,CategorysDTO>(category);
+            return categoryDTO;
         }
 
         // POST api/<Category>
         [HttpPost]
-        public async Task<Category> Post([FromBody] Category category)
+        public async Task<CategorysDTO> Post([FromBody] Category category)
         {
             Category theAddCategory = await _CategoryServices.addCategory(category);
-            return theAddCategory;
+            CategorysDTO categoryDTO = mapper.Map<Category,CategorysDTO>(theAddCategory);
+            return categoryDTO;
         }
 
         // PUT api/<Category>/5

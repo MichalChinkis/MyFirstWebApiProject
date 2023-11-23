@@ -52,17 +52,26 @@ const registerFunc =  async () => {
         else {
             const DataPost = await response.json()
             alert("success")
+            console.log("new user created ->", DataPost);
         }
     } catch (error) { alert(error, "error") }
 }
 
-
 const loginFunc = async () => {
-
+    userToLogin = {
+        UserName: document.getElementById("usLogiInput").value,
+        Password: document.getElementById("passLoginInput").value
+    }
     try {
-        const response = await fetch(`/api/Users/?UserName=${document.getElementById("usLogiInput").value}&Password=${document.getElementById("passLoginInput").value}`)
-        if (response.NoContent) alert("not found")
-        if (!response.ok) {
+        const response = await fetch('/api/Users/login',
+             {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(userToLogin)
+         })
+        if (response.status!=200) {
             alert("not found")
             return;
         }
@@ -87,7 +96,7 @@ const updateFunc = async () => {
     }
 
     try {
-        const id = (JSON.parse(sessionStorage.getItem("user"))).id
+        const id = (JSON.parse(localStorage.getItem("user"))).id
         const response = await fetch(`/api/users/${id}`,
             {
                 method: 'PUT',

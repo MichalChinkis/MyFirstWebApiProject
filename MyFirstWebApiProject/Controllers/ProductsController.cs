@@ -1,9 +1,11 @@
-﻿using entities;
+﻿using AutoMapper;
+using entities;
 using entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
+using DTO;
 
 namespace MyFirstWebApiProject.Controllers
 {
@@ -12,15 +14,20 @@ namespace MyFirstWebApiProject.Controllers
     public class ProductsController : Controller
     {
         IProductsServices _ProductsServices;
-        public ProductsController(IProductsServices productsServices)
+        IMapper mapper;
+
+        public ProductsController(IProductsServices productsServices, IMapper _mapper)
         {
             _ProductsServices = productsServices;
+            mapper = _mapper;
         }
         // GET: ProductsController
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get(string? desc, int? minPrice, int? maxPrice,[FromQuery] int?[] categoryIdys, int position=1, int skip=8)
+        public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts(string? desc, int? minPrice, int? maxPrice,[FromQuery] int?[] categoryIdys, int position=1, int skip=8)
         {
-                return await _ProductsServices.getProducts(desc, minPrice, maxPrice,categoryIdys, position, skip );
+            IEnumerable<Product> products = await _ProductsServices.getProducts(desc, minPrice, maxPrice, categoryIdys, position, skip);
+            IEnumerable<ProductsDTO> productsDTOs = mapper.Map<IEnumerable<Product>,IEnumerable<ProductsDTO>>(products);
+            return Ok(productsDTOs);
         }
 
         [HttpGet("{id}")]
@@ -32,79 +39,11 @@ namespace MyFirstWebApiProject.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<Product> Post([FromBody] Product product)
+        public async Task<ProductsDTO> Post([FromBody] Product product)
         {
             Product theAddProd = await _ProductsServices.addProduct(product);
-            return theAddProd;
+            ProductsDTO productDTO = mapper.Map<Product, ProductsDTO>(theAddProd);
+            return productDTO;
         }
-
-        // GET: ProductsController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: ProductsController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        // POST: ProductsController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: ProductsController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: ProductsController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: ProductsController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: ProductsController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

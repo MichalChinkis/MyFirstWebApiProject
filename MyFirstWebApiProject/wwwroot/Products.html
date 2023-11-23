@@ -30,7 +30,7 @@
 </head>
 <body onload="fetchProducts(),fetchCategory()">
     <h1 id="welcome">welcome </h1>
-    <script>document.getElementById("welcome").textContent += JSON.parse((sessionStorage.getItem("user"))).firstName</script>
+    <script>document.getElementById("welcome").textContent += JSON.parse((sessionStorage.getItem("user")))?.firstName+"!!!";</script>
     <a href="Update.html">לעדכון הפרטים</a>
     <header>
         <div class="bar">

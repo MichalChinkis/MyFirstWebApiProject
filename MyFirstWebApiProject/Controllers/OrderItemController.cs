@@ -1,6 +1,8 @@
-﻿using entities.Models;
+﻿using AutoMapper;
+using entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,22 +13,29 @@ namespace MyFirstWebApiProject.Controllers
     public class OrderItemController : ControllerBase
     {
         IOrderItemServices _OrderItemServices;
-        public OrderItemController(IOrderItemServices orderItemServices)
+        IMapper mapper;
+        public OrderItemController(IOrderItemServices orderItemServices, IMapper _mapper)
         {
             _OrderItemServices = orderItemServices;
+            mapper= _mapper;
         }
         // GET: api/<OrderItemController>
         [HttpGet]
-        public async Task<IEnumerable<OrderItem>> Get()
+        public async Task<ActionResult<IEnumerable<OrderItem>>> Get()
         {
-            return await _OrderItemServices.getOrderItems();
+            IEnumerable<OrderItem> orderItems = await _OrderItemServices.getOrderItems();
+            IEnumerable<OrderItemDTO> orderItemDTOs = mapper.Map<IEnumerable<OrderItem>,IEnumerable<OrderItemDTO>>(orderItems); 
+            return Ok(orderItemDTOs);
+
         }
 
         // GET api/<OrderItemController>/5
         [HttpGet("{id}")]
-        public async Task<OrderItem> getOrderItemById(int id)
+        public async Task<OrderItemDTO> getOrderItemById(int id)
         {
-            return await _OrderItemServices.getOrderItemById(id);
+            OrderItem orderItem = await _OrderItemServices.getOrderItemById(id);
+            OrderItemDTO orderItemDTO = mapper.Map<OrderItem,OrderItemDTO>(orderItem);
+            return orderItemDTO;
         }
 
         // POST api/<OrderItemController>
@@ -34,6 +43,7 @@ namespace MyFirstWebApiProject.Controllers
         public async Task<OrderItem> Post([FromBody] OrderItem orderItem)
         {
             OrderItem theAddOrderItem = await _OrderItemServices.addOrderItem(orderItem);
+            OrderItemDTO orderItemDTO = mapper.Map<OrderItem,OrderItemDTO>(theAddOrderItem);
             return theAddOrderItem;
         }
 

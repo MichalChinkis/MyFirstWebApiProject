@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using entities.Models;
 using Repository;
 using Services;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<IOrderItemServices, OrderItemServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 
+//builder.Services.AddScoped<IMapper, Mapper>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<CookwareShopContext>(option => option.UseSqlServer("Server=DESKTOP-T7J3RR5\\SQLEXPRESS;Database=CookwareShop;Trusted_Connection=True;TrustServerCertificate=True"));
 builder.Services.AddControllers();

@@ -32,7 +32,8 @@ namespace Repository
 
         public async Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8)
         {
-            var query = _CookwareShopContext.Products.Where(product =>
+           var query = _CookwareShopContext.Products.Include(product => product.Category)
+                .Where(product =>
                 (desc == null ? (true) : (product.Description.Contains(desc)))
                 && ((minPrice == null) ? (true) : (product.Price >= minPrice))
                 && ((maxPrice == null) ? (true) : (product.Price <= maxPrice))

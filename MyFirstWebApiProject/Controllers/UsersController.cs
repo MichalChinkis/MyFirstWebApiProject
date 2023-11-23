@@ -6,6 +6,8 @@ using System.Reflection.Metadata;
 using System.Text.Json;
 using Zxcvbn;
 using entities.Models;
+using AutoMapper;
+using DTO;
 
 
 
@@ -17,32 +19,50 @@ namespace MyFirstWebApiProject.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-      
+        
         IUserServices userServices;
-        public UsersController(IUserServices _userServices) {
+        IMapper mapper;
+        public UsersController(IUserServices _userServices, IMapper _mapper) {
             userServices = _userServices;
+            mapper = _mapper;
         }
 
         // GET: api/<UsersController>
         [HttpGet]
-        public async Task<IEnumerable<User>> Get() { 
-            return await userServices.getUsers();
+        public async Task<ActionResult<IEnumerable<UsersDTO>>> GetUsers() { 
+            IEnumerable<User> users = await userServices.getUsers();
+            IEnumerable<UsersDTO> usersDTO = mapper.Map<IEnumerable<User>, IEnumerable<UsersDTO>>(users);
+            return Ok(usersDTO);
         }
 
-    // GET api/<UsersController>/5
-    [HttpGet("{id}")]
-        public async Task<User> getUserById(int id)
-        { 
-            return await userServices.getUserById(id);
+        [Route("login")]
+        [HttpPost]
+        public async Task<ActionResult> get([FromBody] userLoginDTO userLoginDTO)
+        {
+            User userExsist = await userServices.getUserByUserNameAndPassword(userLoginDTO.UserName, userLoginDTO.Password);
+            if (userExsist == null) { 
+                return NoContent();
+            }
+            return Ok(userExsist);
+        }
+
+        // GET api/<UsersController>/5
+        [HttpGet("{id}")]
+        public async Task<UsersDTO> getUserById(int id)
+        {
+            User user = await userServices.getUserById(id);
+            UsersDTO userDTO = mapper.Map<User, UsersDTO>(user);
+            return userDTO;
         }
 
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<User> Post([FromBody] User user)
+        public async Task<UsersDTO> Post([FromBody] User user)
         {
             User theAddUser= await userServices.addUser(user);
-            return theAddUser;
+            UsersDTO userDTO = mapper.Map<User, UsersDTO>(user);
+            return userDTO;
         }
 
         // PUT api/<UsersController>/5

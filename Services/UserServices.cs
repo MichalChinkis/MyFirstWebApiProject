@@ -30,6 +30,11 @@ namespace Services
             return await _UserRepository.getUsers();
         }
 
+        public async Task<User> getUserByUserNameAndPassword(string UserName, string Password)
+        {
+            return await _UserRepository.getUserByUserNameAndPassword(UserName, Password);
+        }
+
         public async Task updateUser(int id, User userToUpdate)
         {
              await _UserRepository.updateUser(id, userToUpdate);

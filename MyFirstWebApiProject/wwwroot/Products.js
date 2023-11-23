@@ -16,9 +16,13 @@
     } catch (error) { alert(error, "error") }
     
 }
-var cart = [];
-sessionStorage.setItem("cart", JSON.stringify(cart));
+
 const drawProduct = (product) => {
+    if (!(JSON.parse(sessionStorage.getItem("user")))
+        && !(JSON.parse(sessionStorage.getItem("cart")))) {
+        let cart = [];
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+    }
     temp = document.getElementById("temp-card");
     var clonProducts = temp.content.cloneNode(true);
     clonProducts.querySelector("img").src = product.picture;
@@ -26,6 +30,7 @@ const drawProduct = (product) => {
     clonProducts.querySelector(".price").innerText = product.price + "$";
     clonProducts.querySelector(".description").innerText = product.description;
     clonProducts.querySelector("button").addEventListener("click", () => {
+
         //פונקציה של הוספה לסל
         var sessionStorageArr = [];
         sessionStorageArr = JSON.parse(sessionStorage.getItem('cart')) || [];

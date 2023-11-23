@@ -1,4 +1,5 @@
-﻿using entities.Models;
+﻿using AutoMapper;
+using entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -11,9 +12,11 @@ namespace MyFirstWebApiProject.Controllers
     public class OrderController : ControllerBase
     {
         IOrderServices _OrderServices;
-        public OrderController(IOrderServices orderServices)
+        IMapper mapper;
+        public OrderController(IOrderServices orderServices, IMapper _mapper)
         {
             _OrderServices = orderServices;
+            mapper = _mapper;
         }
         // GET: api/<OrderController>
         [HttpGet]
