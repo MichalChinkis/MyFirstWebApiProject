@@ -30,7 +30,8 @@ namespace Repository
 
         public async Task<IEnumerable<Order>> getOrders()
         {
-            return await _CookwareShopContext.Orders.ToListAsync();
+            return await _CookwareShopContext.Orders.Include(order => order.OrderItems)
+                .ToListAsync();
 
         }
     }

@@ -13,6 +13,7 @@ namespace MyFirstWebApiProject
             CreateMap<Product, ProductsDTO>();
             CreateMap<Category, CategorysDTO>();
             CreateMap<OrderItem, OrderItemDTO>();
+            CreateMap<Order, OrdersDTO>();
         }
     }
 }

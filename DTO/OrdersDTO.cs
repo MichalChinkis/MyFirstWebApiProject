@@ -16,6 +16,6 @@ namespace DTO
 
         public int? UserId { get; set; }
 
-        public int OrderItemName { get; set; }
+        public int OrderItemId { get; set; }
     }
 }

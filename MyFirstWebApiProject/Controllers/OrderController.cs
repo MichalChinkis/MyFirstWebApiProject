@@ -2,6 +2,7 @@
 using entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +21,17 @@ namespace MyFirstWebApiProject.Controllers
         }
         // GET: api/<OrderController>
         [HttpGet]
-        public async Task<IEnumerable<Order>> Get()
+        public async Task<ActionResult<IEnumerable<Order>>> Get()
         {
-            return await _OrderServices.getOrders();
+            IEnumerable<Order> orders = await _OrderServices.getOrders();
+            var OrdersDTOs = orders.Select(order => new OrdersDTO
+            {
+                OrderId = order.OrderId,
+                OrderDate = order.OrderDate,
+                OrderSum = order.OrderSum,
+                UserId=order.UserId,
+                OrderItemId = order.OrderItems
+            }) 
         }
 
         // GET api/<OrderController>/5
