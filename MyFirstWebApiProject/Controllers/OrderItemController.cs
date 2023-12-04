@@ -40,11 +40,12 @@ namespace MyFirstWebApiProject.Controllers
 
         // POST api/<OrderItemController>
         [HttpPost]
-        public async Task<OrderItem> Post([FromBody] OrderItem orderItem)
+        public async Task<OrderItemDTO> Post([FromBody] OrderItemPostDTO orderItemToAdd)
         {
+            OrderItem orderItem = mapper.Map<OrderItemPostDTO, OrderItem>(orderItemToAdd);
             OrderItem theAddOrderItem = await _OrderItemServices.addOrderItem(orderItem);
             OrderItemDTO orderItemDTO = mapper.Map<OrderItem,OrderItemDTO>(theAddOrderItem);
-            return theAddOrderItem;
+            return orderItemDTO;
         }
 
         // PUT api/<OrderItemController>/5

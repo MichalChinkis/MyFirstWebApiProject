@@ -2,6 +2,7 @@
 using System.Text.Json;
 using entities.Models;
 using Microsoft.EntityFrameworkCore;
+using DTO;
 
 namespace Repository;
 
@@ -16,7 +17,7 @@ public class UserRepository: IUserRepository
     {
       await _CookwareShopContext.Users.AddAsync(user);
        await _CookwareShopContext.SaveChangesAsync();
-        return user;
+       return user;
     }
 
     public async Task<User> getUserById(int id)

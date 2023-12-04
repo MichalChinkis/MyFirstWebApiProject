@@ -9,8 +9,9 @@
         clonProduct.querySelector(".price").innerText = arr[i].price + "$";
         clonProduct.querySelector(".totalColumn").addEventListener("click", () => {
             arr.splice(i, 1);
+            document.getElementById("items").innerHTML = "";
             sessionStorage.setItem("cart", JSON.stringify(arr));
-            location.reload();
+            drawCart();
         });
         sum += arr[i].price;
         document.getElementById("items").appendChild(clonProduct);
@@ -35,7 +36,7 @@ const placeOrder = async () => {
 
     order = {
         orderDate: new Date(),
-        orderSum: parseInt(document.getElementById("totalAmount").innerText),
+        orderSum: parseFloat(document.getElementById("totalAmount").innerText),
         userId: JSON.parse(sessionStorage.getItem("user")).userId,
         orderItems: orderItemsArray
     }

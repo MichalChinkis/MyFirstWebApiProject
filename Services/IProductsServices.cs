@@ -8,7 +8,6 @@ namespace Services
     {
         Task<Product> addProduct(Product product);
         Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8);
-        //Task<User> updateUser(int id, User userToUpdate);
 
         Task<Product> getProductById(int id);
     }

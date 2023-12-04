@@ -24,14 +24,13 @@ namespace Repository
 
         public async Task<Order> getOrderById(int id)
         {
-            return await _CookwareShopContext.Orders.FindAsync(id);
+            return await _CookwareShopContext.Orders.Include(order => order.OrderItems).FirstOrDefaultAsync(o => o.OrderId == id);
 
         }
 
         public async Task<IEnumerable<Order>> getOrders()
         {
-            return await _CookwareShopContext.Orders.Include(order => order.OrderItems)
-                .ToListAsync();
+            return await _CookwareShopContext.Orders.Include(order => order.OrderItems).ToListAsync();
 
         }
     }

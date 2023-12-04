@@ -1,7 +1,7 @@
 ﻿using entities;
 using entities.Models;
 using Repository;
-
+using DTO;
 namespace Services
 {
     public class UserServices : IUserServices

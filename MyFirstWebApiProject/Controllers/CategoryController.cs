@@ -31,7 +31,7 @@ namespace MyFirstWebApiProject.Controllers
 
         // GET api/<Category>/5
         [HttpGet("{id}")]
-        public async Task<CategorysDTO> getUserById(int id)
+        public async Task<CategorysDTO> getCategoryById(int id)
         {
             Category category= await _CategoryServices.getCategoryById(id);
             CategorysDTO categoryDTO = mapper.Map<Category,CategorysDTO>(category);
@@ -40,11 +40,13 @@ namespace MyFirstWebApiProject.Controllers
 
         // POST api/<Category>
         [HttpPost]
-        public async Task<CategorysDTO> Post([FromBody] Category category)
+        public async Task<CategorysDTO> Post([FromBody] CategoryPostDTO category)
         {
-            Category theAddCategory = await _CategoryServices.addCategory(category);
-            CategorysDTO categoryDTO = mapper.Map<Category,CategorysDTO>(theAddCategory);
-            return categoryDTO;
+            Category toAddCategory = mapper.Map<CategoryPostDTO, Category>(category);
+            Category theAddCategory = await _CategoryServices.addCategory(toAddCategory);
+            CategorysDTO finalCategory = mapper.Map<Category, CategorysDTO>(theAddCategory);
+
+            return finalCategory;
         }
 
         // PUT api/<Category>/5

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class UsersDTO
+    public class UserRegisterDTO
     {
-        public int UserId { get; set; }
 
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
@@ -21,7 +20,7 @@ namespace DTO
         public string LastName { get; set; }
 
         public string Password { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
     }
 }

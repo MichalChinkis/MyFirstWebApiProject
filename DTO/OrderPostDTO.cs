@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class OrdersDTO
+    public class OrderPostDTO
     {
-        public int OrderId { get; set; }
-
         public DateTime? OrderDate { get; set; }
-
         public decimal? OrderSum { get; set; }
         public int? UserId { get; set; }
-        public virtual ICollection<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
-
+        public virtual ICollection<OrderItemProdIdDTO> OrderItems { get; set; } = new List<OrderItemProdIdDTO>();
     }
 }

@@ -23,26 +23,29 @@ namespace MyFirstWebApiProject.Controllers
         }
         // GET: ProductsController
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts(string? desc, int? minPrice, int? maxPrice,[FromQuery] int?[] categoryIdys, int position=1, int skip=8)
+        public async Task<IEnumerable<ProductsDTO>> GetProducts(string? desc, int? minPrice, int? maxPrice,[FromQuery] int?[] categoryIdys, int position=1, int skip=8)
         {
             IEnumerable<Product> products = await _ProductsServices.getProducts(desc, minPrice, maxPrice, categoryIdys, position, skip);
             IEnumerable<ProductsDTO> productsDTOs = mapper.Map<IEnumerable<Product>,IEnumerable<ProductsDTO>>(products);
-            return Ok(productsDTOs);
+            return productsDTOs;
         }
 
         [HttpGet("{id}")]
-        public async Task<Product> getProductById(int id)
+        public async Task<ProductsDTO> getProductById(int id)
         {
-            return await _ProductsServices.getProductById(id);
+            Product product = await _ProductsServices.getProductById(id);
+            ProductsDTO productsDTO = mapper.Map<Product, ProductsDTO>(product);
+            return productsDTO;
         }
 
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ProductsDTO> Post([FromBody] Product product)
+        public async Task<ProductResPostDTO> Post([FromBody] ProductPostDTO productToAdd)
         {
+            Product product = mapper.Map<ProductPostDTO, Product>(productToAdd);
             Product theAddProd = await _ProductsServices.addProduct(product);
-            ProductsDTO productDTO = mapper.Map<Product, ProductsDTO>(theAddProd);
+            ProductResPostDTO productDTO = mapper.Map<Product, ProductResPostDTO>(theAddProd);
             return productDTO;
         }
     }

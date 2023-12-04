@@ -31,7 +31,6 @@ namespace Repository
         public async Task<IEnumerable<Category>> getCategories()
         {
             return await _CookwareShopContext.Categories.ToListAsync();
-
         }
     }
 }

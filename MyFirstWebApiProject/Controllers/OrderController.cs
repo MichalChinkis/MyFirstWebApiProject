@@ -3,6 +3,7 @@ using entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using DTO;
+using Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,30 +25,29 @@ namespace MyFirstWebApiProject.Controllers
         public async Task<ActionResult<IEnumerable<Order>>> Get()
         {
             IEnumerable<Order> orders = await _OrderServices.getOrders();
-            var OrdersDTOs = orders.Select(order => new OrdersDTO
-            {
-                OrderId = order.OrderId,
-                OrderDate = order.OrderDate,
-                OrderSum = order.OrderSum,
-                UserId=order.UserId,
-                OrderItemId = order.OrderItems
-            }) 
+            IEnumerable<OrdersDTO> ordersDTOs = mapper.Map<IEnumerable<Order>, IEnumerable<OrdersDTO>>(orders);
+            return Ok(ordersDTOs);
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public async Task<Order> getOrderById(int id)
+        public async Task<OrdersDTO> getOrderById(int id)
         {
-            return await _OrderServices.getOrderById(id);
+            Order order = await _OrderServices.getOrderById(id);
+            OrdersDTO orderDTO = mapper.Map<Order,OrdersDTO>(order);
+            return orderDTO;
         }
 
 
         // POST api/<OrderController>
         [HttpPost]
-        public async Task<Order> Post([FromBody] Order order)
+        public async Task<OrdersDTO> Post([FromBody] OrderPostDTO order)
         {
-            Order theAddOrder = await _OrderServices.addOrder(order);
-            return theAddOrder;
+            //ICollection<OrderItem> orderItemDTO = mapper.Map<ICollection<OrderItemProdIdDTO>, ICollection<OrderItem>>(order.OrderItems);
+            Order orderToAdd = mapper.Map<OrderPostDTO, Order>(order);
+            Order theAddOrder = await _OrderServices.addOrder(orderToAdd);
+            OrdersDTO newAddOrder = mapper.Map<Order, OrdersDTO>(theAddOrder);
+            return newAddOrder;
         }
 
         // PUT api/<OrderController>/5

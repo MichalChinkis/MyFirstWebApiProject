@@ -1,31 +1,51 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="Welcome.js"></script>
+    <script src="Welcome.js" defer></script>
     <meta charset="utf-8" />
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Update.css" />
+    <title>Update Page</title>
 </head>
 <body>
     <div id="updateInputs">
-        <label for="fnInput">First Name</label>
-        <input id="fnInput" />
-        <br />
-        <label for="lnInput">Last Name</label>
-        <input id="lnInput" />
-        <br />
-        <label for="usInput">User Name</label>
-        <input id="usInput" />
-        <br />
-        <label for="passInput">Password</label>
-        <input id="passInput" />
-        <br />
-        <label for="phoneInput">Phone Number</label>
-        <input id="phoneInput" />
-        <br />
-        <label for="emailInput">Email</label>
-        <input id="emailInput" />
-        <br />
-        <button onclick="updateFunc()">UPDATE</button>
+        <form id="updateForm">
+            <section>
+                <label for="fnInput">First Name</label>
+                <input id="fnInput" type="text" />
+            </section>
+
+            <section>
+                <label for="lnInput">Last Name</label>
+                <input id="lnInput" type="text" />
+            </section>
+
+            <section>
+                <label for="usInput">User Name</label>
+                <input id="usInput" type="text" />
+            </section>
+
+            <section>
+                <label for="passInput">Password</label>
+                <input id="passInput" type="password" />
+            </section>
+
+            <section>
+                <label for="emailInput">Email</label>
+                <input id="emailInput" type="email" />
+            </section>
+
+            <section>
+                <button type="button" onclick="updateFunc()">UPDATE</button>
+            </section>
+
+        </form>
+        <div id="customAlert" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeCustomAlert()">&times;</span>
+                <p id="alertMessage"></p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

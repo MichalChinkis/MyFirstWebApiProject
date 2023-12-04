@@ -22,9 +22,12 @@ namespace MyFirstWebApiProject.Controllers
         
         IUserServices userServices;
         IMapper mapper;
-        public UsersController(IUserServices _userServices, IMapper _mapper) {
+        private readonly ILogger<UsersController> _logger;
+        public UsersController(IUserServices _userServices, IMapper _mapper, ILogger<UsersController> logger)
+        {
             userServices = _userServices;
             mapper = _mapper;
+            _logger = logger;
         }
 
         // GET: api/<UsersController>
@@ -37,12 +40,13 @@ namespace MyFirstWebApiProject.Controllers
 
         [Route("login")]
         [HttpPost]
-        public async Task<ActionResult> get([FromBody] userLoginDTO userLoginDTO)
+        public async Task<ActionResult> get([FromBody] UserLoginDTO userLoginDTO)
         {
             User userExsist = await userServices.getUserByUserNameAndPassword(userLoginDTO.UserName, userLoginDTO.Password);
             if (userExsist == null) { 
                 return NoContent();
             }
+            _logger.LogInformation("Login attemped with user name: {0} and password {1}", userLoginDTO.UserName , userLoginDTO.Password);
             return Ok(userExsist);
         }
 
@@ -58,18 +62,24 @@ namespace MyFirstWebApiProject.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<UsersDTO> Post([FromBody] User user)
+        public async Task<UsersDTO> Post([FromBody] UserRegisterDTO userToRegister)
         {
-            User theAddUser= await userServices.addUser(user);
+            User user = mapper.Map<UserRegisterDTO, User>(userToRegister);
+            User theAddUser = await userServices.addUser(user);
+            if (theAddUser == null) {
+                return null;
+            }
             UsersDTO userDTO = mapper.Map<User, UsersDTO>(user);
             return userDTO;
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] User userToUpdate)
+        public async Task Put(int id, [FromBody] UserRegisterDTO userToUpdate)
         {
-             await userServices.updateUser(id, userToUpdate);
+            User user = mapper.Map<UserRegisterDTO, User>(userToUpdate);
+            user.UserId = id;
+            await userServices.updateUser(id, user);
         }
 
         // DELETE api/<UsersController>/5

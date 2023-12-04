@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class UserLoginDTO
+    public class OrderItemProdIdDTO
     {
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
+        public int? ProductId { get; set; }
+
     }
 }

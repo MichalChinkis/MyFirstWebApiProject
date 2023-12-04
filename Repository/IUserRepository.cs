@@ -1,4 +1,5 @@
-﻿using entities;
+﻿using DTO;
+using entities;
 using entities.Models;
 
 namespace Repository

@@ -11,5 +11,6 @@ namespace Repository
         Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8);
 
         Task<Product> getProductById(int id);
+        Task<decimal> checkSumOrder(List<int> productIDs);
     }
 }

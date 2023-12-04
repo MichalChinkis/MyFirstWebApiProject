@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
 namespace Repository
 {
     public class ProductsRepository : IProductsRepository
@@ -27,12 +28,19 @@ namespace Repository
 
         public async Task<Product> getProductById(int id)
         {
-            return await _CookwareShopContext.Products.FindAsync(id);
+            return await _CookwareShopContext.Products.Include(p=>p.Category).FirstOrDefaultAsync(p => p.ProductId == id);
         }
-
+        public async Task<decimal> checkSumOrder(List<int> productIDs) {
+            decimal sum = 0;
+            for (var i = 0; i < productIDs.Count(); i++) {
+                Product prod= await _CookwareShopContext.Products.FindAsync(productIDs[i]);
+                sum += (decimal)prod.Price;
+            }
+            return sum;
+        }
         public async Task<IEnumerable<Product>> getProducts(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIdys, int position = 1, int skip = 8)
         {
-           var query = _CookwareShopContext.Products.Include(product => product.Category)
+            var query = _CookwareShopContext.Products.Include(product => product.Category)
                 .Where(product =>
                 (desc == null ? (true) : (product.Description.Contains(desc)))
                 && ((minPrice == null) ? (true) : (product.Price >= minPrice))
