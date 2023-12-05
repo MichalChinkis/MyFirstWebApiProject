@@ -8,6 +8,7 @@ using Zxcvbn;
 using entities.Models;
 using AutoMapper;
 using DTO;
+using Org.BouncyCastle.Crypto.Tls;
 
 
 
@@ -75,11 +76,13 @@ namespace MyFirstWebApiProject.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] UserRegisterDTO userToUpdate)
+        public async Task<ActionResult> Put(int id, [FromBody] UserRegisterDTO userToUpdate)
         {
             User user = mapper.Map<UserRegisterDTO, User>(userToUpdate);
             user.UserId = id;
-            await userServices.updateUser(id, user);
+            int score = await userServices.updateUser(id, user);
+            if (score <= 2) return BadRequest(new { error = "WeakPassword", message = "Your password is too weak" });
+            return Ok(new { message = "Success!" });
         }
 
         // DELETE api/<UsersController>/5

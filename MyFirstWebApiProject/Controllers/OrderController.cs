@@ -50,16 +50,6 @@ namespace MyFirstWebApiProject.Controllers
             return newAddOrder;
         }
 
-        // PUT api/<OrderController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<OrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+  
     }
 }

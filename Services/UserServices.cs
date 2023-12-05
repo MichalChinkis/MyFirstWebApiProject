@@ -2,6 +2,8 @@
 using entities.Models;
 using Repository;
 using DTO;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Services
 {
     public class UserServices : IUserServices
@@ -35,9 +37,13 @@ namespace Services
             return await _UserRepository.getUserByUserNameAndPassword(UserName, Password);
         }
 
-        public async Task updateUser(int id, User userToUpdate)
+        public async Task<int> updateUser(int id, User userToUpdate)
         {
-             await _UserRepository.updateUser(id, userToUpdate);
+            //check strength of password
+            var result = Zxcvbn.Core.EvaluatePassword(userToUpdate.Password);
+            if (result.Score <= 2) return result.Score;
+            await _UserRepository.updateUser(id, userToUpdate);
+            return result.Score;
         }
 
         public async Task DeleteUser(int id)

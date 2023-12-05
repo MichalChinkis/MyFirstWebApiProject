@@ -49,16 +49,5 @@ namespace MyFirstWebApiProject.Controllers
             return finalCategory;
         }
 
-        // PUT api/<Category>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<Category>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

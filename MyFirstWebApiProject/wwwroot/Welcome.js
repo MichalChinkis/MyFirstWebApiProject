@@ -28,7 +28,7 @@ const checkPassword = () => {
     var result = zxcvbn(password);
     if (result.score <= 2) {
         showCustomAlert("Your password is weak! Please try again.");
-        document.getElementById("passInput").value = null;
+        //document.getElementById("passInput").value = null;
     }
 
     // Update the password strength progress
@@ -130,15 +130,16 @@ const updateFunc = async () => {
                 },
                 body: JSON.stringify(user)
             });
-
-            if (!response.ok) {
-                showCustomAlert("User not found. Please try again.");
-            } else {
-                // const DataPost = await response.json()
+            const responseBody = await response.json();
+            if (response.ok && responseBody.message === "Success!") {
                 showCustomAlert("User successfully updated!");
             }
+            else if (response.status === 400 && responseBody.message ==="Your password is too weak") { 
+                showCustomAlert("password's too weak!")
+            }else
+                showCustomAlert("An error occurred. Please try again later.");
+            
         } catch (error) {
-            showCustomAlert("An error occurred. Please try again later.");
             console.error(error);
         }
     }

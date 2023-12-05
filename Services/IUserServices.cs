@@ -8,7 +8,7 @@ namespace Services
     {
         Task<User> addUser(User user);
         Task<IEnumerable<User>> getUsers();
-        Task updateUser(int id, User userToUpdate);
+        Task<int> updateUser(int id, User userToUpdate);
         Task<User> getUserByUserNameAndPassword(string UserName, string Password);
         Task<User> getUserById(int id);
         Task DeleteUser(int id);

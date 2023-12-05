@@ -40,6 +40,7 @@ const drawProduct = (product) => {
         document.getElementById("ItemsCountText").innerText = sessionStorageArr.length;
     });
     document.getElementById("ProductList").appendChild(clonProducts);
+    document.getElementById("ItemsCountText").innerText = (JSON.parse(sessionStorage.getItem("cart"))?.length)
 }
 
 const fetchCategory =async () => {
@@ -99,6 +100,7 @@ async function filterProducts(idOfCategory = []) {
     document.getElementById("ProductList").innerHTML = "";
     fetchProducts(url);
 }
+
 
 
 

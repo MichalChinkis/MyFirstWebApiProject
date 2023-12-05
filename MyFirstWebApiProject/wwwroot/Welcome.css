@@ -109,3 +109,41 @@ a {
     color: #bd4ca2;
     font-family: 'Dancing Script', cursive;
 }
+
+/* Add these styles to your CSS file */
+
+.progressStyle {
+    appearance: none;
+    height: 15px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+    /* Styling for the progress value based on its max value (4 in this case) */
+    .progressStyle::-webkit-progress-value {
+        background: linear-gradient(to right, #ff0000, #ff6600, #ffcc00, #33cc33); /* Change the colors as needed */
+    }
+
+    /* Styling for the progress bar track */
+    .progressStyle::-webkit-progress-bar {
+        background-color: #f0f0f0; /* Set a background color for the track */
+    }
+
+/* Add these styles to your CSS file */
+
+.progressStyle {
+    appearance: none;
+    height: 15px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+    /* Styling for the progress value based on its max value (4 in this case) */
+    .progressStyle::-webkit-progress-value {
+        background: linear-gradient(to right, #ff0000, #ff6600, #ffcc00, #33cc33); /* Change the colors as needed */
+    }
+
+    /* Styling for the progress bar track */
+    .progressStyle::-webkit-progress-bar {
+        background-color: #f0f0f0; /* Set a background color for the track */
+    }

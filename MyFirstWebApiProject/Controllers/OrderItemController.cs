@@ -47,17 +47,5 @@ namespace MyFirstWebApiProject.Controllers
             OrderItemDTO orderItemDTO = mapper.Map<OrderItem,OrderItemDTO>(theAddOrderItem);
             return orderItemDTO;
         }
-
-        // PUT api/<OrderItemController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<OrderItemController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

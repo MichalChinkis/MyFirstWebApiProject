@@ -9,12 +9,12 @@
         clonProduct.querySelector(".price").innerText = arr[i].price + "$";
         clonProduct.querySelector(".totalColumn").addEventListener("click", () => {
             arr.splice(i, 1);
-            document.getElementById("items").innerHTML = "";
             sessionStorage.setItem("cart", JSON.stringify(arr));
+            document.getElementById("itemBody").replaceChildren([]);
             drawCart();
         });
         sum += arr[i].price;
-        document.getElementById("items").appendChild(clonProduct);
+        document.getElementById("itemBody").appendChild(clonProduct);
     }
     document.getElementById("itemCount").innerText = arr.length;
     document.getElementById("totalAmount").innerText = sum;
@@ -53,8 +53,9 @@ const placeOrder = async () => {
 
         const resOrder = await response.json()
         console.log("the order", resOrder);
-        alert(resOrder?.orderId);
+        alert("order num: "+resOrder?.orderId+" created succesfuly!!");
     } catch (error) { alert(error, "error") }
     let cart = [];
     sessionStorage.setItem("cart", JSON.stringify(cart))
+    location.href="Products.html"
 }
