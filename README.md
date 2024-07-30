@@ -32,3 +32,26 @@ Validation and error handling:
 I used entity validation.
 The errors are written to the log, and the user gets just an internal error.
 Moq.EntityFrameworkCore
+using entities.Models;
+using Moq;
+using Repository;
+namespace Tests.Repository;
+
+[TestClass]
+public class UserRepositoryUnitTest
+{
+    [Fact]
+    public async Task GetUser_ValidCredentials_ReturnsUser()
+    {
+        var user = new User { Email = "", Password = "" };
+
+        var mockContext = new Mock<CookwareShopContext>();
+        var users = new List<User>() { user };
+        mockContext.Setup(x => x.Users).ReturnsDbSet(users);
+
+        var userRepository = new UserRepository(mockContext.Object);
+        var result = await userRepository.getUserByUserNameAndPassword(user.Email, user.Password);
+
+        Assert.Equals(user, result);
+    }
+}
