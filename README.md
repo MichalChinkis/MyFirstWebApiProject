@@ -31,3 +31,4 @@ one called "rating middleware" that puts each request details in the DB, and ano
 Validation and error handling:
 I used entity validation.
 The errors are written to the log, and the user gets just an internal error.
+Moq.EntityFrameworkCore
