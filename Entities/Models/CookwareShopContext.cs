@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace entities.Models;
 
@@ -11,6 +12,10 @@ public partial class CookwareShopContext : DbContext
 
     public CookwareShopContext()
     {
+    }
+    public CookwareShopContext(DbContextOptions<CookwareShopContext> options) : base(options)
+    { 
+    
     }
 
     public CookwareShopContext(DbContextOptions<CookwareShopContext> options, IConfiguration configuration)
@@ -32,9 +37,11 @@ public partial class CookwareShopContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer(_configuration.GetConnectionString("CookWareShop"));
+        if(!optionsBuilder.IsConfigured)
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("CookWareShop"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
